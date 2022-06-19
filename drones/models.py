@@ -1,9 +1,8 @@
-from platform import release
 from django.db import models
 
 # Create your models here.
 class Category(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, unique=True)
 
     class Meta:
         ordering = ("name",)
@@ -13,7 +12,7 @@ class Category(models.Model):
 
 
 class Drone(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     category = models.ForeignKey(
         Category, related_name="drones", on_delete=models.CASCADE
     )
@@ -35,7 +34,7 @@ class Pilot(models.Model):
         (MALE, "Male"),
         (FEMALE, "Female"),
     )
-    name = models.CharField(max_length=150, blank=False, default="")
+    name = models.CharField(max_length=150, blank=False, unique=True)
     gender = models.CharField(max_length=150, choices=GENDER_CHOICES, default=MALE)
     races_count = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
